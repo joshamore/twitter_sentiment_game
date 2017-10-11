@@ -21,7 +21,7 @@ class StdOutListener(StreamListener):
             return False
 
     def on_error(self, status):
-        print status
+        print(status)
 
 
 if __name__ == '__main__':
@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     # Stream filter for all lowercase roman alphabet letters
     stream.filter(track=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
-    
+
     # TESTING
     print(len(tweets))
     print(tweets[0])
