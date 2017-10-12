@@ -1,40 +1,40 @@
-from tweepy.streaming import StreamListener
-from tweepy import OAuthHandler
-from tweepy import Stream
+from twython import Twython
+from twython import TwythonStreamer
 
-consumer_key = 'cfgvhb'
-consumer_secret = 'cbv '
-access_token = 'cvbn'
-access_token_secret = 'cvbn'
+# Don't push with keys!
+consumer_key = 'sdasd'
+consumer_secret = 'asdasd'
+access_token = 'asdas'
+access_secret = 'asdasd'
+
 
 # Stores tweets
 tweets = []
 
-#This is a basic listener that stores tweet in list until 10 are present
-class StdOutListener(StreamListener):
-
-    def on_data(self, data):
+# Setting up streamer
+# Docs: http://twython.readthedocs.io/en/latest/usage/streaming_api.html?highlight=track#filtering-public-statuses
+class MyStreamer(TwythonStreamer):
+    def on_success(self, data):
+        # Storing tweet if less than 10, otherwise disconnecting
         if len(tweets) < 10:
             tweets.append(data)
-            return True
         else:
-            return False
+            self.disconnect()
 
-    def on_error(self, status):
-        print(status)
-
-
+    def on_error(self, status_code, data):
+        print status_code
+        
+        # Stops trying to get data on error
+        self.disconnect()
+        
 if __name__ == '__main__':
-
-    #This handles Twitter authetification and the connection to Twitter Streaming API
-    listen = StdOutListener()
-    auth = OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-    stream = Stream(auth, listen)
-
-    # Stream filter for all lowercase roman alphabet letters
-    stream.filter(track=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
-
+    # Setting stream auth
+    stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
+    
+    # Grabbing currnet tweets that contain a lowercase letter
+    stream.statuses.filter(track='a')
+    
     # TESTING
-    print(len(tweets))
     print(tweets[0])
+    print(tweets[0]['text'])
+    print(len(tweets))
