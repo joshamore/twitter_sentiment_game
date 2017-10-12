@@ -7,7 +7,6 @@ consumer_secret = 'asda'
 access_token = 'asda'
 access_secret = 'sda'
 
-
 # Stores tweets
 tweets = []
 
