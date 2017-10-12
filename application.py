@@ -2,10 +2,10 @@ from twython import Twython
 from twython import TwythonStreamer
 
 # Don't push with keys!
-consumer_key = 'sdasd'
-consumer_secret = 'asdasd'
-access_token = 'asdas'
-access_secret = 'asdasd'
+consumer_key = 'dasd'
+consumer_secret = 'asda'
+access_token = 'asda'
+access_secret = 'sda'
 
 
 # Stores tweets
@@ -32,9 +32,8 @@ if __name__ == '__main__':
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
     # Grabbing currnet tweets that contain a lowercase letter
-    stream.statuses.filter(track='a')
+    stream.statuses.filter(track=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
     
     # TESTING
-    print(tweets[0])
     print(tweets[0]['text'])
     print(len(tweets))
