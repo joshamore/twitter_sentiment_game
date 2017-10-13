@@ -21,7 +21,7 @@ class MyStreamer(TwythonStreamer):
             self.disconnect()
 
     def on_error(self, status_code, data):
-        print status_code
+        print(status_code)
         
         # Stops trying to get data on error
         self.disconnect()
