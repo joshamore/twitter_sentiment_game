@@ -2,10 +2,10 @@ from twython import Twython
 from twython import TwythonStreamer
 
 # Don't push with keys!
-consumer_key = 'dasd'
-consumer_secret = 'asda'
-access_token = 'asda'
-access_secret = 'sda'
+consumer_key = 'sas'
+consumer_secret = 'assa'
+access_token = 'asa'
+access_secret = 'as'
 
 # Stores tweets
 tweets = []
@@ -25,7 +25,8 @@ class MyStreamer(TwythonStreamer):
         
         # Stops trying to get data on error
         self.disconnect()
-        
+
+# Probably won't need the main block for final code
 if __name__ == '__main__':
     # Setting stream auth
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
