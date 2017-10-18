@@ -32,7 +32,7 @@ if __name__ == '__main__':
     # Setting stream auth
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
-    # TEST FILTER
+    # Filters tweets checking for 10 most common english words
     stream.statuses.filter(track=['the', 'of', 'to', 'and', 'in', 'you', 'that', 'it', 'is', 'for'])
     
     #Storing tweets text
