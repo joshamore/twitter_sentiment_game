@@ -13,12 +13,10 @@ twitter = Twython(consumer_key, consumer_secret, access_token, access_secret)
 # Stores stream tweet data (including user)
 streamTweet = []
 
-#Storing 100x tweets for user
-guessTweetData = []
-
 # Setting up streamer
 # Docs: http://twython.readthedocs.io/en/latest/usage/streaming_api.html?highlight=track#filtering-public-statuses
 class MyStreamer(TwythonStreamer):
+    
     def on_success(self, data):
         # Storing tweet if has a display picture and at least 100 tweets
         if data['user']['default_profile_image'] == False and data['user']["statuses_count"] > 100:
@@ -37,20 +35,20 @@ if __name__ == '__main__':
     # TEST FILTER
     stream.statuses.filter(track=['the', 'of', 'to', 'and', 'in', 'you', 'that', 'it', 'is', 'for'])
     
+    #Storing tweets text
+    guessTweetData = []
+    
     # Pulling in user tweets
     user_timeline = twitter.get_user_timeline(user_id=streamTweet[0]['user']['id'], count=50)
     for tweet in user_timeline:
         guessTweetData.append(tweet['text'])
         
-    # TODO: Write a for loop to check each tweet's polarity and update variable.
     # Checking the polarity of each tweet
     polarityCombo = 0
-    
     for tweet in guessTweetData:
-        
+        tweetBlob = TextBlob(tweet)
+        polarityCombo += tweetBlob.sentiment.polarity
         
     # TESTING
-    test = TextBlob(guessTweetData[0])
     print(guessTweetData[0])
-    print(test.sentiment.polarity)
-    #print(guessTweetData)
+    print(polarityCombo)
