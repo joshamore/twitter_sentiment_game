@@ -3,10 +3,10 @@ from twython import TwythonStreamer
 from textblob import TextBlob
 
 # Don't push with keys!
-consumer_key = 'as'
-consumer_secret = 'asd'
-access_token = 'asad'
-access_secret = 'asd'
+consumer_key = 'and'
+consumer_secret = 'and'
+access_token = 'and'
+access_secret = 'and'
 
 twitter = Twython(consumer_key, consumer_secret, access_token, access_secret)
 
@@ -34,8 +34,8 @@ if __name__ == '__main__':
     # Setting stream auth
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
-    # Filtering for tweets containing a lowercase letter
-    stream.statuses.filter(track=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
+    # TEST FILTER
+    stream.statuses.filter(track=['the', 'of', 'to', 'and', 'in', 'you', 'that', 'it', 'is', 'for'])
     
     # Pulling in user tweets
     user_timeline = twitter.get_user_timeline(user_id=streamTweet[0]['user']['id'], count=50)
@@ -44,9 +44,9 @@ if __name__ == '__main__':
         
     # TODO: Write a for loop to check each tweet's polarity and update variable.
     # Checking the polarity of each tweet
-    #polarityCombo = 0
+    polarityCombo = 0
     
-    #for tweet in guessTweetData:
+    for tweet in guessTweetData:
         
         
     # TESTING
