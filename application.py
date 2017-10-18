@@ -8,8 +8,6 @@ consumer_secret = 'and'
 access_token = 'and'
 access_secret = 'and'
 
-twitter = Twython(consumer_key, consumer_secret, access_token, access_secret)
-
 # Stores stream tweet data (including user)
 streamTweet = []
 
@@ -29,7 +27,8 @@ class MyStreamer(TwythonStreamer):
         self.disconnect()
 
 if __name__ == '__main__':
-    # Setting stream auth
+    # Setting auths
+    twitter = Twython(consumer_key, consumer_secret, access_token, access_secret)
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
     # Filters tweets checking for 10 most common english words
