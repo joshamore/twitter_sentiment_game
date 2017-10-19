@@ -1,4 +1,3 @@
-from textblob import TextBlob
 import os
 from flask import Flask, session, render_template
 from helpers import *
@@ -15,17 +14,11 @@ def hello_world():
 def register():
     return render_template('register.html')
 
+# MAIN ONLY BEING USED FOR TESTING
 if __name__ == '__main__':
-    #!! TODO !!
-    # Move this functionality into helpers.py
-    guessTweetData = pullTweets()
+    tweets = pullTweets()
+    polarity = totalPolarity(tweets)
     
-    # Checking the polarity of each tweet
-    polarityCombo = 0
-    for tweet in guessTweetData:
-        tweetBlob = TextBlob(tweet)
-        polarityCombo += tweetBlob.sentiment.polarity
-        
     # TESTING
-    print(guessTweetData[0])
-    print(polarityCombo)
+    print(tweets[0])
+    print(polarity)

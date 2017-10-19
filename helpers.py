@@ -1,5 +1,6 @@
 from twython import Twython
 from twython import TwythonStreamer
+from textblob import TextBlob
 
 # Don't push with keys!
 consumer_key = 'and'
@@ -42,3 +43,14 @@ def pullTweets():
         
     # Returning text of past 50 tweets in a list
     return guessTweetData
+
+# Returns the total polarity of a passed array of tweet text strings
+def totalPolarity(tweets):
+    total = 0
+    
+    # Checking the polarity of each tweet
+    for tweet in tweets:
+        tweetBlob = TextBlob(tweet)
+        total += tweetBlob.sentiment.polarity
+        
+    return total
