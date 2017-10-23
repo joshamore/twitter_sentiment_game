@@ -1,5 +1,17 @@
 .tweetView {
-    margin: 1px solid black;
-    float: none;
-    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid black;
+    width: 350px;
+    word-wrap: break-word;
+    padding: 5px;
+}
+.username {
+    font-size: 2rem;
+}
+.displayPic {
+    width: 15%;
+    height: auto;
+    border: 2px solid grey;
+    margin-bottom: 15px;
 }

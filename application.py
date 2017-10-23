@@ -6,8 +6,13 @@ app = Flask(__name__)
 
 # Home page
 @app.route('/', methods=['GET', 'POST'])
-def hello_world():
-    return render_template('index.html')
+def index():
+    # Will eventually have an if/else block to check if user is logged in
+    # Pulling in random twitter user's tweets and analysisng the polarity
+    tweets = pullTweets()
+    polarity = totalPolarity(tweets[1])
+    
+    return render_template('index.html', tweets=tweets, polarity=polarity)
 
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])

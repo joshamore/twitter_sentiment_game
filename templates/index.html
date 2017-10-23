@@ -5,11 +5,19 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Twitter Sentiment Guessing</h1>
-    <div>
+    <h1 class="text-center">Twitter Sentiment Guessing</h1>
+    <br>
+    <div class="text-center">
         <h2>Is this person mostly positive or mostly negative on Twitter?</h2>
-        <div class="tweetView">
-            
+        <div class="tweetView mx-auto">
+            <p class="username"><strong>{{ tweets[0]['username'] }}</strong></p>
+            <img src="{{ tweets[0]['picture'] }}" class="displayPic">
+            <p>{{ tweets[0]['bio'] }}</p>
+        </div>
+        
+        <div>
+            <button type="button" class="btn btn-success">Positive 😀</button>
+            <button type="button" class="btn btn-danger">Negative 😠</button>
         </div>
     </div>
 {% endblock %}
