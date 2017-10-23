@@ -1,5 +1,5 @@
 import os
-from flask import Flask, session, render_template
+from flask import Flask, session, render_template, request
 from helpers import *
 
 app = Flask(__name__)
@@ -8,11 +8,10 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     # Will eventually have an if/else block to check if user is logged in
-    # Pulling in random twitter user's tweets and analysisng the polarity
-    tweets = pullTweets()
-    polarity = totalPolarity(tweets[1])
-    
-    return render_template('index.html', tweets=tweets, polarity=polarity)
+    # Returns data for a random user if logged in and request is GET
+    if request.method == 'GET':
+        twitterUser = getRandUser()
+        return render_template('index.html', twitterUser=twitterUser)
 
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])
@@ -22,10 +21,11 @@ def register():
 
 # MAIN ONLY BEING USED FOR TESTING
 if __name__ == '__main__':
-    tweets = pullTweets()
-    print(tweets[0])
-    polarity = totalPolarity(tweets[1])
+    user = getRandUser()
+    tweets = pullTweets(user['username'])
+    polarity = totalPolarity(tweets)
     
     # TESTING
-    print(tweets[1][0])
+    print(user)
+    print(tweets[0])
     print(polarity)

@@ -8,7 +8,7 @@ consumer_secret = 'and'
 access_token = 'and'
 access_secret = 'and'
 
-# Stores stream tweet data (including user)
+# Stores stream tweet data 
 streamTweet = []
 
 # Setting up streamer
@@ -24,23 +24,14 @@ class MyStreamer(TwythonStreamer):
         print(status_code)
         self.disconnect()
 
-# Will pull in 50 most recent tweets from a random user
-def pullTweets():
-    # Setting auths
-    twitter = Twython(consumer_key, consumer_secret, access_token, access_secret)
+# Will get a random Twitter user's details from the stream of most recent tweets
+def getRandUser():
+    # Setting auth
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
-    # Filters tweets checking for 10 most common english words
+    # Filters tweets checking for 10 most common english words to find a random English user
     stream.statuses.filter(track=['the', 'of', 'to', 'and', 'in', 'you', 'that', 'it', 'is', 'for'])
-    
-    guessTweetData = []
-    returnData = []
-    
-    # Pulling in user tweets
-    user_timeline = twitter.get_user_timeline(user_id=streamTweet[0]['user']['id'], count=50)
-    for tweet in user_timeline:
-        guessTweetData.append(tweet['text'])
-        
+      
     # Storing user details
     userData = {
         'username': streamTweet[0]['user']['screen_name'],
@@ -48,13 +39,23 @@ def pullTweets():
         'picture': streamTweet[0]['user']['profile_image_url']
     }
     
-    # Storing user data and tweet data in a list to be returned
-    returnData.append(userData)
-    returnData.append(guessTweetData)
-    
-    # Returning text of past 50 tweets in a list
-    return returnData
+    # Returning user details
+    return userData
 
+# Pulling in tweets for given user
+def pullTweets(user):
+    # Setting auth
+    twitter = Twython(consumer_key, consumer_secret, access_token, access_secret)
+    
+    tweets = []
+    
+    # Pulling in user's most recent 50 tweets
+    user_timeline = twitter.get_user_timeline(user_id=streamTweet[0]['user']['id'], count=50)
+    for tweet in user_timeline:
+        tweets.append(tweet['text'])
+        
+    return tweets
+      
 # Returns the total polarity of a passed array of tweet text strings
 def totalPolarity(tweets):
     total = 0
