@@ -18,8 +18,9 @@ def register():
 # MAIN ONLY BEING USED FOR TESTING
 if __name__ == '__main__':
     tweets = pullTweets()
-    polarity = totalPolarity(tweets)
+    print(tweets[0])
+    polarity = totalPolarity(tweets[1])
     
     # TESTING
-    print(tweets[0])
+    print(tweets[1][0])
     print(polarity)

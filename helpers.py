@@ -33,16 +33,27 @@ def pullTweets():
     # Filters tweets checking for 10 most common english words
     stream.statuses.filter(track=['the', 'of', 'to', 'and', 'in', 'you', 'that', 'it', 'is', 'for'])
     
-    #Storing tweets text
     guessTweetData = []
+    returnData = []
     
     # Pulling in user tweets
     user_timeline = twitter.get_user_timeline(user_id=streamTweet[0]['user']['id'], count=50)
     for tweet in user_timeline:
         guessTweetData.append(tweet['text'])
         
+    # Storing user details
+    userData = {
+        'username': streamTweet[0]['user']['screen_name'],
+        'bio': streamTweet[0]['user']['description'],
+        'picture': streamTweet[0]['user']['profile_image_url']
+    }
+    
+    # Storing user data and tweet data in a list to be returned
+    returnData.append(userData)
+    returnData.append(guessTweetData)
+    
     # Returning text of past 50 tweets in a list
-    return guessTweetData
+    return returnData
 
 # Returns the total polarity of a passed array of tweet text strings
 def totalPolarity(tweets):
