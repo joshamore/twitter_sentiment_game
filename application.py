@@ -1,5 +1,5 @@
 import os
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, jsonify
 from helpers import *
 
 app = Flask(__name__)
@@ -12,6 +12,18 @@ def index():
     if request.method == 'GET':
         twitterUser = getRandUser()
         return render_template('index.html', twitterUser=twitterUser)
+
+# TESTING
+@app.route('/test')
+def twitterData():
+    # Stores GET request argument in variable
+    user = request.args.get('username')
+    
+    tweets = pullTweets(user)
+    polarity = totalPolarity(tweets)
+    
+    return jsonify(polarity)
+    
 
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])

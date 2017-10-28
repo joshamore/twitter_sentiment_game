@@ -1,16 +1,24 @@
+/*****************************
+General
+*****************************/
+
+
+/*****************************
+Twitter Display
+*****************************/
 .tweetView {
     margin-top: 15px;
     margin-bottom: 15px;
-    border: 1px solid black;
+    border: 2px solid black;
     width: 350px;
     word-wrap: break-word;
     padding: 5px;
 }
-.username {
+#username {
     font-size: 2rem;
 }
 .displayPic {
-    width: 15%;
+    width: 100px;
     height: auto;
     border: 2px solid grey;
     margin-bottom: 15px;

@@ -10,7 +10,7 @@
     <div class="text-center">
         <h2>Is this person mostly positive or mostly negative on Twitter?</h2>
         <div class="tweetView mx-auto">
-            <p class="username"><strong>{{ twitterUser['username'] }}</strong></p>
+            <p id="username"><strong>{{ twitterUser['username'] }}</strong></p>
             <img src="{{ twitterUser['picture'] }}" class="displayPic">
             <p>{{ twitterUser['bio'] }}</p>
         </div>
@@ -18,6 +18,11 @@
         <div>
             <button type="button" class="btn btn-success">Positive 😀</button>
             <button type="button" class="btn btn-danger">Negative 😠</button>
+        </div>
+        
+        <!-- TESTING -->
+        <div>
+            <p id="test"></p>
         </div>
     </div>
 {% endblock %}
