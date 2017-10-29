@@ -14,15 +14,22 @@ def index():
         return render_template('index.html', twitterUser=twitterUser)
 
 # TESTING
-@app.route('/test')
+@app.route('/twitterdata')
 def twitterData():
     # Stores GET request argument in variable
     user = request.args.get('username')
     
+    guess = request.args.get('guess')
+    
     tweets = pullTweets(user)
     polarity = totalPolarity(tweets)
     
-    return jsonify(polarity)
+    results = {
+        'polarity': polarity,
+        'results': guess
+    }
+        
+    return jsonify(results)
     
 
 # Register account page
