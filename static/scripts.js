@@ -3,15 +3,13 @@
 $SCRIPT_ROOT = "http://127.0.0.1:5000";
 
 
-// FOR TESTING.
-// TODO: Update functionality so guess data is sent to server with GET request.
+// Stores required temporary data
 var model = {
     guess: null
 };
 
 
-// Communicates with server
-// TODO: Clean up JS ajax request -- consider using MVC-esque seperation. Example in JS calculator project.
+// Methods that communicate with the server
 var controller = {
     guessClick: function() {
         $.ajax({
@@ -20,8 +18,6 @@ var controller = {
             data: {username: document.querySelector("#username").textContent, guess: model.guess},
             success: function(results) {
                 console.log(results);
-                
-                $("#test").append(results.results)
             }
         });
     }

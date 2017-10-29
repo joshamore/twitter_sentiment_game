@@ -1,6 +1,7 @@
 import os
 from flask import Flask, session, render_template, request, jsonify
 from helpers import *
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -13,12 +14,12 @@ def index():
         twitterUser = getRandUser()
         return render_template('index.html', twitterUser=twitterUser)
 
-# TESTING
+# Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's
+# Sentiment
 @app.route('/twitterdata')
 def twitterData():
-    # Stores GET request argument in variable
+    # Stores GET request arguments in variables
     user = request.args.get('username')
-    
     guess = request.args.get('guess')
     
     tweets = pullTweets(user)
@@ -29,9 +30,14 @@ def twitterData():
         'results': guess
     }
         
-    return jsonify(results)
+    return results
     
-
+# Returns a page displaying the results of a user's guess
+# TODO: Need to link up with JS.
+@app.route('/results')
+def results():
+    return render_template('results.html')
+    
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
