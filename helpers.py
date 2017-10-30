@@ -1,6 +1,7 @@
 from twython import Twython
 from twython import TwythonStreamer
 from textblob import TextBlob
+from flask_sqlalchemy import SQLAlchemy
 
 # Don't push with keys!
 consumer_key = 'and'

@@ -1,10 +1,13 @@
 import os
 from flask import Flask, session, render_template, request, jsonify
 from helpers import *
-from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+# DB TESTING START
+    #TODO
+# DB TESTING END 
+    
 # Home page
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -30,7 +33,7 @@ def twitterData():
         'results': guess
     }
         
-    return results
+    return jsonify(results)
     
 # Returns a page displaying the results of a user's guess
 # TODO: Need to link up with JS.
