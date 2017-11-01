@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import Flask, session, render_template, request, jsonify
+from flask import Flask, session, render_template, request, jsonify, redirect, url_for
 from helpers import *
 import sqlite3 as lite
 from passlib.apps import custom_app_context as pwd_context
@@ -10,38 +10,29 @@ from passlib.apps import custom_app_context as pwd_context
 # Docs for hash function: https://passlib.readthedocs.io/en/1.6.5/new_app_quickstart.html
 
 app = Flask(__name__)
+# Secret key used for session cookie
+app.secret_key = os.urandom(24)
 
-# DB TESTING START -- REMOVE AFTER COMPLETING REGISTER FUNCTION
-con = None
-
-try:
-    con = lite.connect('twittergame.db')
-
-    cur = con.cursor()
-    cur.execute('SELECT "username" FROM users WHERE id=1')
-    #cur.execute("INSERT INTO users(username, hash) VALUES('ssadasi', 'assaaasasfsas')")
-    #con.commit()
-
-    data = cur.fetchone()
-    print(data[0])
-
-except lite.Error as e:
-    print('Error: {}'.format(e.args[0]))
-    sys.exit(1)
-
-finally:
-    if con:
-        con.close()
-# DB TESTING END 
-    
 # Home page
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # Will eventually have an if/else block to check if user is logged in
-    # Returns data for a random user if logged in and request is GET
-    if request.method == 'GET':
-        twitterUser = getRandUser()
-        return render_template('index.html', twitterUser=twitterUser)
+    if 'username' in session:
+        if request.method == 'POST':
+            return "TODO"
+        else:
+            twitterUser = getRandUser()
+            return render_template('index.html', twitterUser=twitterUser)
+    else:
+        redirect(url_for('login'))
+
+# Login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return "todo"
+        #TODO: Setup login session
+    else:
+        return render_template('login.html')
 
 # Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's
 # Sentiment
@@ -83,10 +74,33 @@ def register():
         elif not password:
             return render_template('error.html', errorCode = 'Password cannot be blank')
         
-        # TODO: Check that username doesn't already exist (throw error if so)
-        # TODO: If user is unique, hash password and store in users table. Then return to index logged in to new account.
-        # TODO: Will need to setup session before user can login.
+        con = None
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+            
+            # Executeds SQL query (storing username and password has). Must commit to push changes to DB
+            cur.execute("INSERT INTO users(username, hash) VALUES(?, ?)", (username, pwd_context.encrypt(password)))
+            con.commit()
+
+            # TODO: Need to create a new session for the user!!!!!
+            
+            # Redirects to index/home
+            return redirect(url_for('index'))
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
         
+            sys.exit(1)
+
+        finally:
+            if con:
+                # Closes connection
+                con.close()
+                
         return render_template('register.html')
     else:
         return render_template('register.html')

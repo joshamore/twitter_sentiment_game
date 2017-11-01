@@ -6,7 +6,7 @@
 
 {% block main %}
     <h1 class="text-center">Error</h1>
-    <p class="text-center">Error: {{errorCode}}</p>
+    <p class="text-center"><strong>Error:</strong> {{errorCode}}</p>
 
-    <a href="{{ url_for('register') }}" class="text-center">Retry?</a>
+    <p class="text-center"><a href="{{ url_for('register') }}">Retry?</a></p>
 {% endblock %}
