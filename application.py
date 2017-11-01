@@ -3,10 +3,15 @@ import sys
 from flask import Flask, session, render_template, request, jsonify
 from helpers import *
 import sqlite3 as lite
+from passlib.apps import custom_app_context as pwd_context
+
+# To build from command line first: export FLASK_APP=application.py
+# Then: flask run
+# Docs for hash function: https://passlib.readthedocs.io/en/1.6.5/new_app_quickstart.html
 
 app = Flask(__name__)
 
-# DB TESTING START
+# DB TESTING START -- REMOVE AFTER COMPLETING REGISTER FUNCTION
 con = None
 
 try:
@@ -14,9 +19,10 @@ try:
 
     cur = con.cursor()
     cur.execute('SELECT "username" FROM users WHERE id=1')
+    #cur.execute("INSERT INTO users(username, hash) VALUES('ssadasi', 'assaaasasfsas')")
+    #con.commit()
 
     data = cur.fetchone()
-
     print(data[0])
 
 except lite.Error as e:
@@ -64,7 +70,26 @@ def results():
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    # POST method means user has submitted a form (creating an account).
+    # GET returns a render of the page.
+    if request.method == 'POST':
+        # Stores form data received from POST request
+        username = request.form.get("username")
+        password = request.form.get("password")
+        
+        # Error checking that a username and password were submitted
+        if not username:
+            return render_template('error.html', errorCode = 'Username cannot be blank')
+        elif not password:
+            return render_template('error.html', errorCode = 'Password cannot be blank')
+        
+        # TODO: Check that username doesn't already exist (throw error if so)
+        # TODO: If user is unique, hash password and store in users table. Then return to index logged in to new account.
+        # TODO: Will need to setup session before user can login.
+        
+        return render_template('register.html')
+    else:
+        return render_template('register.html')
 
 
 # MAIN ONLY BEING USED FOR TESTING
@@ -72,3 +97,14 @@ if __name__ == '__main__':
     user = getRandUser()
     tweets = pullTweets(user['username'])
     polarity = totalPolarity(tweets)
+    
+    # Password testing
+    dank = input("Yes? ")
+    
+    hasha = pwd_context.encrypt(dank)
+    
+    print("Hashed:" + hasha)
+    
+    verify = pwd_context.verify(dank, hasha)
+    
+    print(verify)

@@ -14,7 +14,7 @@ Twitter Display
     word-wrap: break-word;
     padding: 5px;
 }
-#username {
+.twitterUsername {
     font-size: 2rem;
 }
 .displayPic {
@@ -22,4 +22,13 @@ Twitter Display
     height: auto;
     border: 2px solid grey;
     margin-bottom: 15px;
+}
+
+
+/*****************************
+Registration
+*****************************/
+#register {
+    padding-left: 20%;
+    padding-right: 20%;    
 }
