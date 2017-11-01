@@ -1,7 +1,6 @@
 from twython import Twython
 from twython import TwythonStreamer
 from textblob import TextBlob
-from flask_sqlalchemy import SQLAlchemy
 
 # Don't push with keys!
 consumer_key = 'and'
@@ -11,7 +10,6 @@ access_secret = 'and'
 
 # Stores stream tweet data 
 streamTweet = []
-
 # Setting up streamer
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):

@@ -1,11 +1,31 @@
 import os
+import sys
 from flask import Flask, session, render_template, request, jsonify
 from helpers import *
+import sqlite3 as lite
 
 app = Flask(__name__)
 
 # DB TESTING START
-    #TODO
+con = None
+
+try:
+    con = lite.connect('twittergame.db')
+
+    cur = con.cursor()
+    cur.execute('SELECT "username" FROM users WHERE id=1')
+
+    data = cur.fetchone()
+
+    print(data[0])
+
+except lite.Error as e:
+    print('Error: {}'.format(e.args[0]))
+    sys.exit(1)
+
+finally:
+    if con:
+        con.close()
 # DB TESTING END 
     
 # Home page
@@ -52,8 +72,3 @@ if __name__ == '__main__':
     user = getRandUser()
     tweets = pullTweets(user['username'])
     polarity = totalPolarity(tweets)
-    
-    # TESTING
-    print(user)
-    print(tweets[0])
-    print(polarity)
