@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">Error</h1>
+    <p class="text-center">Error: {{errorCode}}</p>
+
+    <a href="{{ url_for('register') }}" class="text-center">Retry?</a>
+{% endblock %}
