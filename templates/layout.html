@@ -10,9 +10,12 @@
     </head>
     
     <body>
-        <div class="container">
-            <!--WILL CONTAIN A DEFAULT NAVBAR -->
-        </div>
+        <!-- Navbar displayed if user logged in -->
+        {% if 'username' in session %}
+        <nav class="navbar navbar-light bg-faded ">
+            <a href="{{ url_for('logout') }}" class="nav-link ml-auto">Logout</a>
+        </nav>
+        {% endif %}
         
         <main>
             {% block main %}{% endblock %}

@@ -8,5 +8,6 @@
     <h1 class="text-center">Error</h1>
     <p class="text-center"><strong>Error:</strong> {{errorCode}}</p>
 
-    <p class="text-center"><a href="{{ url_for('register') }}">Retry?</a></p>
+    <p class="text-center"><a href="{{ url_for('index') }}">Login to existing account?</a></p>
+    <p class="text-center"><a href="{{ url_for('register') }}">Register a new account?</a></p>
 {% endblock %}

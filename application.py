@@ -83,8 +83,7 @@ def login():
     else:
         return render_template('login.html')
 
-# Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's
-# Sentiment
+# Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's sentiment
 @app.route('/twitterdata')
 def twitterData():
     # Stores GET request arguments in variables
@@ -156,6 +155,14 @@ def register():
     else:
         return render_template('register.html')
 
+# Logs user out of account and returns to index
+@app.route('/logout')
+def logout():
+    # Deletes the username element from session
+    session.pop('username', None)
+    
+    # Returns user to index
+    return redirect(url_for('index'))
 
 # MAIN ONLY BEING USED FOR TESTING
 if __name__ == '__main__':
