@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import Flask, session, render_template, request, jsonify, redirect, url_for
+from flask import Flask, session, render_template, request, jsonify, redirect, url_for, redirect
 from helpers import *
 import sqlite3 as lite
 from passlib.apps import custom_app_context as pwd_context
@@ -9,6 +9,7 @@ from passlib.apps import custom_app_context as pwd_context
 # Then: flask run
 # Docs for hash function: https://passlib.readthedocs.io/en/1.6.5/new_app_quickstart.html
 
+# Setting up Flask app
 app = Flask(__name__)
 # Secret key used for session cookie
 app.secret_key = os.urandom(24)
@@ -16,21 +17,69 @@ app.secret_key = os.urandom(24)
 # Home page
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if 'username' in session:
-        if request.method == 'POST':
-            return "TODO"
+    if request.method == 'POST':
+        if 'username' in session:
+            return 'TODO'
         else:
+            return 'TODO'
+    else:
+        if 'username' in session:
             twitterUser = getRandUser()
             return render_template('index.html', twitterUser=twitterUser)
-    else:
-        redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return "todo"
-        #TODO: Setup login session
+        # Storing username and password variables from POST request
+        username = request.form.get("username")
+        password = request.form.get("password")
+        
+        # Error checking that a username and password were submitted
+        if not username:
+            return render_template('error.html', errorCode = 'Username cannot be blank')
+        elif not password:
+            return render_template('error.html', errorCode = 'Password cannot be blank')
+
+        # Ensures con is null before trying to establish a connection
+        con = None
+        
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+
+            # Queries DB for username provided by user
+            cur.execute("SELECT * FROM users WHERE username = ?", (username,))
+            userData = cur.fetchone()
+            
+            # If username not found in DB, returns an error to user.
+            # Otherwise, user found and checks password against stored hash.
+            if not userData:
+                return render_template('error.html', errorCode = 'Username not registered')
+            else:
+                # If password provided matches hash, sets session with username
+                # Otherwise, throws an error
+                if pwd_context.verify(password, userData[2]):
+                    session['username'] = username
+                    return redirect(url_for('index'))
+                else:
+                    return render_template('error.html', errorCode = 'Incorrect password')
+            
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
+        
+            sys.exit(1)
+            
+        finally:
+            if con:
+                con.close()
+
     else:
         return render_template('login.html')
 
@@ -85,10 +134,12 @@ def register():
             cur.execute("INSERT INTO users(username, hash) VALUES(?, ?)", (username, pwd_context.encrypt(password)))
             con.commit()
 
-            # TODO: Need to create a new session for the user!!!!!
+            # Setting session to log user in
+            session['username'] = username
             
             # Redirects to index/home
             return redirect(url_for('index'))
+        
         except lite.Error as e:
             # Prints error on server side and renders error code for user
             print('Error: {}'.format(e.args[0]))
