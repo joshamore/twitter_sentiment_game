@@ -20,6 +20,10 @@ Twitter Display
     word-wrap: break-word;
     padding: 5px;
 }
+.buttonPointer {
+    cursor: pointer;
+    display: inline-block;
+}
 .twitterUsername {
     font-size: 2rem;
 }

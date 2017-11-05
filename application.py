@@ -15,19 +15,14 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Home page
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    if request.method == 'POST':
-        if 'username' in session:
-            return 'TODO'
-        else:
-            return 'TODO'
+    if 'username' in session:
+        twitterUser = getRandUser()
+        session['twitterUser'] = twitterUser
+        return render_template('index.html', twitterUser=twitterUser)
     else:
-        if 'username' in session:
-            twitterUser = getRandUser()
-            return render_template('index.html', twitterUser=twitterUser)
-        else:
-            return redirect(url_for('login'))
+        return redirect(url_for('login'))
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -82,6 +77,34 @@ def login():
 
     else:
         return render_template('login.html')
+
+# Positive guess
+@app.route('/positiveGuess')
+def positiveGuess():
+    # Pulling Tweets for twitter user
+    tweets = pullTweets(session['twitterUser'])
+    
+    # Storing polarity of tweets
+    polarity = totalPolarity(tweets)
+    
+    # Will store the data to be passed back to client 
+    results = {}
+    
+    # Calculating correctness of user's guess
+    # TODO: This if/else block also needs to contain the DB INSERT
+    if polarity >= 0:
+        results['guess'] = 'correct'
+    else:
+        results['guess'] = 'incorrect'
+    
+    return render_template('results.html', results = results)
+    
+# Negative guess
+@app.route('/negativeGuess')
+def negativeGuess():
+    print("todo")
+    
+    return render_template('results.html')
 
 # Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's sentiment
 @app.route('/twitterdata')
@@ -158,8 +181,9 @@ def register():
 # Logs user out of account and returns to index
 @app.route('/logout')
 def logout():
-    # Deletes the username element from session
+    # Deletes data from session
     session.pop('username', None)
+    session.pop('twitterUser', None)
     
     # Returns user to index
     return redirect(url_for('index'))

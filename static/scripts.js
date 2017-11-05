@@ -1,8 +1,3 @@
-// Stores the prefix to the root application folder
-// TODO: Update this with dynamic Flask address
-$SCRIPT_ROOT = "http://127.0.0.1:5000";
-
-
 // Stores required temporary data
 var model = {
     guess: null

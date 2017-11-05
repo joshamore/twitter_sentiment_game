@@ -16,8 +16,8 @@
         </div>
         
         <div>
-            <button type="button" class="btn btn-success" id="positive">Positive 😀</button>
-            <button type="button" class="btn btn-danger" id="negative">Negative 😠</button>
+            <div class="buttonPointer"><a class="btn btn-success" id="positive" href="{{ url_for('positiveGuess')}}">Positive 😀</a></div>
+            <div class="buttonPointer"><a class="btn btn-danger" id="negative" href="{{ url_for('negativeGuess')}}">Negative 😠</a></div>
         </div>
         
         <!-- TESTING -->
