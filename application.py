@@ -247,12 +247,6 @@ def twitterData():
         
     return jsonify(results)
     
-# Returns a page displaying the results of a user's guess
-# TODO: Need to link up with JS.
-@app.route('/results')
-def results():
-    return render_template('results.html')
-    
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
