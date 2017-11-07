@@ -60,6 +60,27 @@ def pullTweets(user):
         tweets.append(tweet['text'])
         
     return tweets
+
+# Returns polarity analysis of passed tweets
+def polarityAnalysis(tweets):
+    polarity = {
+        'positive': 0,
+        'neutral': 0,
+        'negative': 0
+    }
+    
+    # Generating polarity totals
+    for tweet in tweets:
+        tweetBlob = TextBlob(tweet)
+        
+        if tweetBlob.sentiment.polarity == 0:
+            polarity['neutral'] += 1
+        elif tweetBlob.sentiment.polarity > 0:
+            polarity['positive'] += 1
+        else:
+            polarity['negative'] += 1
+            
+    return polarity
       
 # Returns the total polarity of a passed array of tweet text strings
 def totalPolarity(tweets):

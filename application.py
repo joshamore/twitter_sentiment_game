@@ -233,19 +233,13 @@ def negativeGuess():
 # Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's sentiment
 @app.route('/twitterdata')
 def twitterData():
-    # Stores GET request arguments in variables
+    # Stores GET request username argument in variables
     user = request.args.get('username')
-    guess = request.args.get('guess')
     
     tweets = pullTweets(user)
-    polarity = totalPolarity(tweets)
-    
-    results = {
-        'polarity': polarity,
-        'results': guess
-    }
+    polarity = polarityAnalysis(tweets)
         
-    return jsonify(results)
+    return jsonify(polarity)
     
 # Register account page
 @app.route('/register', methods=['GET', 'POST'])
@@ -310,8 +304,9 @@ def logout():
 if __name__ == '__main__':
     user = getRandUser()
     tweets = pullTweets(user['username'])
-    polarity = totalPolarity(tweets)
+    polarity = polarityAnalysis(tweets)
     
+    print(polarity)
     # Password testing
     dank = input("Yes? ")
     

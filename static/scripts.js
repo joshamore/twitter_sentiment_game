@@ -1,60 +1,48 @@
-// CHART TEST
-function chart() {
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-    });
-}
-/*ALL THE BELOW WILL BE DELETED -- NO LONGER BEING USED */
-
 // Stores required temporary data
 var model = {
-    guess: null
+    // Stores polarity data for chart
+    polarityData: 0
 };
 
 
-// Methods that communicate with the server
+// Logical functions and backend requests
 var controller = {
-    guessClick: function() {
+    // Pulls polarity via get request and stores in model for use in chart
+    tweetData: function() {
         $.ajax({
             type: 'GET',
             url: $SCRIPT_ROOT + '/twitterdata',
-            data: {username: document.querySelector("#username").textContent, guess: model.guess},
+            data: {username: document.querySelector("#twitterUsername").textContent},
             success: function(results) {
-                console.log(results);
+                returnData = [];
+                
+                returnData.push(results.positive);
+                returnData.push(results.neutral);
+                returnData.push(results.negative);
+                
+                model.polarityData = returnData;
+            }
+        });
+    },
+    chart: function() {
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            cutoutPercentage: 50,
+            data: {
+                labels: ["Positive", "Neutral", "Negative"],
+                datasets: [{
+                    label: 'Percentage of Sentiment',
+                    data: model.polarityData,
+                    backgroundColor: [
+                        '#50db1e',
+                        '#dddddd',
+                        '#f23030'
+                ]
+                    }],
+            },
+            options: {
+
             }
         });
     }
@@ -63,16 +51,16 @@ var controller = {
 
 // Triggers based on user interactions
 var events = {
-    positiveClick: $('#positive').click(function() {
-        model.guess = 'positive';
-        controller.guessClick();
+    // Generates Twitter polarity visual on click
+    resultClick: $('#showVisData').click(function() {
+        // Inserts chart canvas into DOM
+        $('#resultsVisData').html('<canvas id="myChart" width="400" height="400"></canvas>');
+        
+        // Creating chart with model data
+        controller.chart();
     }),
-    positiveClick: $('#negative').click(function() {
-        model.guess = 'negative';
-        controller.guessClick();
-    }),
-    resultClick: $('#resultArea').click(function() {
-        $('#resultArea').html('<canvas id="myChart" width="400" height="400"></canvas>');
-        chart();
+    // Makes get request for Twitter polarity data after DOM loads
+    getPolarityData: document.addEventListener("DOMContentLoaded", function() {
+        controller.tweetData();
     })
 };

@@ -48,15 +48,23 @@ Registration
 Results
 *****************************/
 .guessHeading {
-    font-size: 2rem;
+    font-size: 2em;
 }
-.correctGuessText {
-    font-size: 1.75rem;
+.guessText {
+    font-size: 3em;
     font-family: monospace;
     margin-top: 15px;
 }
-.incorrectGuessText {
-    font-size: 1.75rem;
-    font-family: monospace;
-    margin-top: 15px;
+.resultsVisuals {
+	display: flex;
+    justify-content: center;
+}
+#showVisData {
+    color: #0275d8;
+    text-decoration: none;
+}
+#showVisData:hover {
+    color: #015096;
+    text-decoration: underline;
+    cursor: pointer;
 }
