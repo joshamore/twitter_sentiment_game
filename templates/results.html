@@ -5,10 +5,20 @@
 {% endblock %}
 
 {% block main %}
-    <h1 class="text-center">Your Guess Was...</h1>
-    <br>
-    <h2 class="text-center"></h2>
     <div class="text-center">
-        {{ results|tojson|safe }}
+        <h1>Results</h1>
+        <p class="guessHeading">Your Guessed That <a href="https://twitter.com/{{ session['twitterUser'] }}" target="_blank">{{ session['twitterUser'] }}'s</a> Tweets are Mostly <strong>{{ results['guess'] }}</strong>...</p>
+
+        <br>
+
+        <div>
+            {% if results['answer'] == 'Correct' %}
+                <img src="../static/assets/fire.png">
+                <p class="correctGuessText"><strong>Correct!</strong></p>
+            {% else %}
+                <img src="../static/assets/poop.png">
+                <p class="incorrectGuessText"><strong>Incorrect!</strong></p>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

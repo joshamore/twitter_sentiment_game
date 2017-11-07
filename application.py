@@ -90,13 +90,15 @@ def positiveGuess():
     # Will store the data to be passed back to client 
     results = {}
     
+    results['guess'] = 'Positive'
+    
     # Date/time of guess will be stored in DB
     dateTime = datetime.datetime.now()
     dateTime = dateTime.replace(microsecond=0)
     
     # Calculating correctness of user's guess, updating DB, and rendering results page.
     if polarity >= 0:
-        results['guess'] = 'correct'
+        results['answer'] = 'Correct'
         
         con = None
         try:
@@ -124,7 +126,7 @@ def positiveGuess():
                 # Closes connection
                 con.close()
     else:
-        results['guess'] = 'incorrect'
+        results['answer'] = 'Incorrect'
                 
         con = None
         try:
@@ -155,9 +157,78 @@ def positiveGuess():
 # Negative guess
 @app.route('/negativeGuess')
 def negativeGuess():
-    print("todo")
+    # Pulling Tweets for twitter user
+    tweets = pullTweets(session['twitterUser'])
     
-    return render_template('results.html')
+    # Storing polarity of tweets
+    polarity = totalPolarity(tweets)
+    
+    # Will store the data to be passed back to client 
+    results = {}
+    
+    results['guess'] = 'Negative'
+    
+    # Date/time of guess will be stored in DB
+    dateTime = datetime.datetime.now()
+    dateTime = dateTime.replace(microsecond=0)
+    
+    # Calculating correctness of user's guess, updating DB, and rendering results page.
+    if polarity >= 0:
+        results['answer'] = 'Incorrect'
+        
+        con = None
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+            
+            # Executeds SQL query and commits to DB
+            cur.execute("INSERT INTO guesses (username, twitter_user, guess, result, date) VALUES (?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'negative', 'False', dateTime))
+            con.commit()
+            
+            # Returns render with results
+            return render_template('results.html', results = results)
+        
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
+        
+            sys.exit(1)
+
+        finally:
+            if con:
+                # Closes connection
+                con.close()
+    else:
+        results['answer'] = 'Correct'
+                
+        con = None
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+            
+            # Executeds SQL query and commits to DB
+            cur.execute("INSERT INTO guesses(username, twitter_user, guess, result, date) VALUES(?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'negative', 'True', dateTime))
+            con.commit()
+            
+            # Returns render with results
+            return render_template('results.html', results = results)
+        
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
+        
+            sys.exit(1)
+
+        finally:
+            if con:
+                # Closes connection
+                con.close()
 
 # Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's sentiment
 @app.route('/twitterdata')

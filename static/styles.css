@@ -42,3 +42,21 @@ Registration
     padding-left: 20%;
     padding-right: 20%;    
 }
+
+
+/*****************************
+Results
+*****************************/
+.guessHeading {
+    font-size: 2rem;
+}
+.correctGuessText {
+    font-size: 1.75rem;
+    font-family: monospace;
+    margin-top: 15px;
+}
+.incorrectGuessText {
+    font-size: 1.75rem;
+    font-family: monospace;
+    margin-top: 15px;
+}

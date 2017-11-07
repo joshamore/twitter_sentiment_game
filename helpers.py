@@ -11,6 +11,7 @@ access_secret = 'and'
 
 # Stores stream tweet data 
 streamTweet = []
+
 # Setting up streamer
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
@@ -26,6 +27,10 @@ class MyStreamer(TwythonStreamer):
 
 # Will get a random Twitter user's details from the stream of most recent tweets
 def getRandUser():
+    # Resets streamTweet to ensure a new Twitter user is returned
+    global streamTweet
+    streamTweet = []
+    
     # Setting auth
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
