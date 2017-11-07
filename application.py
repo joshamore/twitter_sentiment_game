@@ -19,7 +19,7 @@ app.secret_key = os.urandom(24)
 def index():
     if 'username' in session:
         twitterUser = getRandUser()
-        session['twitterUser'] = twitterUser
+        session['twitterUser'] = twitterUser['username']
         return render_template('index.html', twitterUser=twitterUser)
     else:
         return redirect(url_for('login'))
@@ -90,14 +90,67 @@ def positiveGuess():
     # Will store the data to be passed back to client 
     results = {}
     
-    # Calculating correctness of user's guess
-    # TODO: This if/else block also needs to contain the DB INSERT
+    # Date/time of guess will be stored in DB
+    dateTime = datetime.datetime.now()
+    dateTime = dateTime.replace(microsecond=0)
+    
+    # Calculating correctness of user's guess, updating DB, and rendering results page.
     if polarity >= 0:
         results['guess'] = 'correct'
+        
+        con = None
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+            
+            # Executeds SQL query and commits to DB
+            cur.execute("INSERT INTO guesses (username, twitter_user, guess, result, date) VALUES (?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'positive', 'True', dateTime))
+            con.commit()
+            
+            # Returns render with results
+            return render_template('results.html', results = results)
+        
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
+        
+            sys.exit(1)
+
+        finally:
+            if con:
+                # Closes connection
+                con.close()
     else:
         results['guess'] = 'incorrect'
-    
-    return render_template('results.html', results = results)
+                
+        con = None
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+            
+            # Executeds SQL query and commits to DB
+            cur.execute("INSERT INTO guesses(username, twitter_user, guess, result, date) VALUES(?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'positive', 'False', dateTime))
+            con.commit()
+            
+            # Returns render with results
+            return render_template('results.html', results = results)
+        
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
+        
+            sys.exit(1)
+
+        finally:
+            if con:
+                # Closes connection
+                con.close()
     
 # Negative guess
 @app.route('/negativeGuess')
