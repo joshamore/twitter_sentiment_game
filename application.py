@@ -290,6 +290,37 @@ def register():
     else:
         return render_template('register.html')
 
+# Displays user's past guess history
+@app.route('/history')
+def history():
+        
+        # Ensures con is null before trying to establish a connection
+        con = None
+        
+        try:
+            # Establishes connection to DB
+            con = lite.connect('twittergame.db')
+            # Sets cursor for connected DB
+            cur = con.cursor()
+
+            # Queries DB for guess entries for user and stores all in userHistory
+            cur.execute("SELECT * FROM guesses WHERE username = ?", (session['username'],))
+            userHistory = cur.fetchall()
+            
+            # Renders page and passes template guesses in a list
+            return render_template('history.html', history = userHistory)
+            
+        except lite.Error as e:
+            # Prints error on server side and renders error code for user
+            print('Error: {}'.format(e.args[0]))
+            return render_template('error.html', errorCode = e.args[0])
+        
+            sys.exit(1)
+            
+        finally:
+            if con:
+                con.close()
+    
 # Logs user out of account and returns to index
 @app.route('/logout')
 def logout():

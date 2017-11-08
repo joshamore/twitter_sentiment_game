@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">Guess History for {{ session['username'] }}</h1>
+
+    <div class="container">
+        <table class="table table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Twitter User</th>
+                    <th>Guess Made</th>
+                    <th>Outcome</th>
+                    <th>Date and Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in history %}
+                <tr>
+                    <td>{{ entry[1] }}</td>
+                    {% if entry[2] == 'positive' %}
+                        <td class="posHistoryGuess">Positive</td>
+                    {% else %}
+                        <td class="negHistoryGuess">Negative</td>
+                    {% endif %}
+                    {% if entry[3] == 'True' %}
+                        <td>Correct</td>
+                    {% else %}
+                        <td>Incorrect</td>
+                    {% endif %}
+                    <td>{{ entry[4] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

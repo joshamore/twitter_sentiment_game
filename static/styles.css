@@ -68,3 +68,17 @@ Results
     text-decoration: underline;
     cursor: pointer;
 }
+
+
+/*****************************
+History
+*****************************/
+.historyTable {
+    margin: 0px auto;
+}
+.posHistoryGuess {
+    color: green;
+}
+.negHistoryGuess {
+    color: red;
+}
