@@ -12,25 +12,28 @@
         <br>
 
         <div>
-            <div class="text-center">
-                <p id="showVisData"><em>Visualise Tweet data?</em></p>
-            </div>
             {% if results['answer'] == 'Correct' %}
                 <div class="resultsVisuals">
                     <div class="resultsEmoji">
                         <p class="guessText"><strong>Correct!</strong></p>
-                        <img src="../static/assets/fire.png">
-                    </div>
-                    <div id="resultsVisData">
+                        <div class="text-center">
+                            <p id="showVisData" class="btn btn-primary">Visualise Tweet Data</p><a href="{{ url_for('index') }}">
+                            <br>
+                            <p class="btn btn-success">New Game</p></a>
+                        </div>
+                        <div id="resultsVisData"><img src="../static/assets/fire.png"></div>
                     </div>
                 </div>
             {% else %}
                 <div class="resultsVisuals">
                     <div class="resultsEmoji">
                         <p class="guessText"><strong>Incorrect!</strong></p>
-                        <img src="../static/assets/poop.png">
-                    </div>
-                    <div id="resultsVisData">
+                        <div class="text-center">
+                            <p id="showVisData" class="btn btn-primary">Visualise Tweet Data</p><a href="{{ url_for('index') }}">
+                            <br>
+                            <p class="btn btn-success">New Game</p></a>
+                        </div>
+                        <div id="resultsVisData"><img src="../static/assets/poop.png"></div>
                     </div>
                 </div>
             {% endif %}

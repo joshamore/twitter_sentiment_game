@@ -1,7 +1,9 @@
 // Stores temporary data
 var model = {
-    // Stores polarity data for chart
-    polarityData: 0
+    // Polarity data for results chart
+    polarityData: 0,
+    // History data for history chart
+    historyData: [],
 };
 
 
@@ -29,8 +31,8 @@ var controller = {
             }
         });
     },
-    chart: function() {
-        var ctx = document.getElementById("myChart").getContext('2d');
+    resultsChart: function() {
+        var ctx = document.getElementById("resultsChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             cutoutPercentage: 50,
@@ -50,23 +52,72 @@ var controller = {
 
             }
         });
+    },
+    historyData: function(callback) {
+        $.ajax({
+            type: 'GET',
+            url: $SCRIPT_ROOT + '/historyGuessData',
+            success: function(results) {
+                model.historyData = results;
+                
+                return callback()
+            }
+        });
+    },
+    historyChart: function() {
+        var ctx = document.getElementById("historyChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            cutoutPercentage: 50,
+            data: {
+                labels: ["Correct", "Incorrect"],
+                datasets: [{
+                    label: 'Correct vs. Incorrect Guesses',
+                    data: model.historyData,
+                    backgroundColor: [
+                        '#50db1e',
+                        '#f23030'
+                ]
+                    }],
+            },
+            options: {
+
+            }
+        });
     }
 };
 
 
 // Triggers based on user interactions
 var events = {
-    // Generates Twitter polarity visual on click
+    // Generates Twitter polarity chart and adds to DOM on click
     resultClick: $('#showVisData').click(function() {
-        // This function will be called from inside tweetData function as callback
+        // This function will be called from inside tweetData function as callback when AJAX returns
         function generateChart() {
             // Inserts chart canvas into DOM
-            $('#resultsVisData').html('<canvas id="myChart" width="400" height="400"></canvas>');
+            $('#resultsVisData').html('<canvas id="resultsChart" width="400" height="400"></canvas>');
+            
             // Creating chart with model data
-            controller.chart();
+            controller.resultsChart();
         }
         
         // Pulling Tweet data and generating the chart after receiving data
         controller.tweetData(generateChart);
+    }),
+    historyChartClick: $('#showHistoryChart').click(function() {
+        // This function will be called from inside the historyData function as a callback when AJAX returns
+        function generateChart() {
+            // Creating chart with model data
+            controller.historyChart();
+        }
+        
+        // Inserts canvas into DOM
+        $('historyVisData').html('<canvas id="historyChart" width="400" height="400"</canvas>');
+        
+        controller.historyChart(generateChart);
     })
 };
+
+// TODO: Resolve issue with history chart. Possible typo. chart is not being created before
+// function attempts to add data. No GET request is being made with current 
+// code (not yet hitting AJAX functions -- error is before that step).

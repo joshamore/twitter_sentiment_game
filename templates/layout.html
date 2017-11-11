@@ -12,11 +12,39 @@
     <body>
         <!-- Navbar displayed if user logged in -->
         {% if 'username' in session %}
+        <!--
         <nav class="navbar navbar-light bg-faded ">
-            <a href="{{ url_for('logout') }}" class="nav-link ml-auto">Logout</a>
+            <a href="{{ url_for('index') }}" class="navbar-brand">{{ session['username'] }}</a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('history') }}">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        -->
+        <nav class="userNavbar">
+            <div class="navLinkContainer">
+                <a href="#">TEST</a>
+                <a href="#">TEST</a>
+                <a href="{{ url_for('logout') }}">Log out</a>
+            </div>
         </nav>
         {% endif %}
         
+        <!-- Mail block will be generated from templates -->
         <main>
             {% block main %}{% endblock %}
         </main>

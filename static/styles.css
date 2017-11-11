@@ -6,7 +6,14 @@ General
 /*****************************
 Logged In Navbar
 *****************************/
-
+.userNavbar {
+    width: 100%;
+    height: 60px;
+    background-color: lightgrey;
+}
+.navLinkContainer {
+    display: inline-block;
+}
 
 
 /*****************************
@@ -59,13 +66,7 @@ Results
 	display: flex;
     justify-content: center;
 }
-#showVisData {
-    color: #0275d8;
-    text-decoration: none;
-}
 #showVisData:hover {
-    color: #015096;
-    text-decoration: underline;
     cursor: pointer;
 }
 
