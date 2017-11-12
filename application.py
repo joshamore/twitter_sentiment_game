@@ -408,6 +408,10 @@ def logout():
     else:
         return redirect(url_for('login'))
 
+# Error handling for 404 errors (page not found)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 ################################################################
 # MAIN ONLY BEING USED FOR TESTING
