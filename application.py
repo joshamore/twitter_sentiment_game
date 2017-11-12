@@ -84,7 +84,7 @@ def login():
             return render_template('login.html')
 
 # Positive guess
-@app.route('/positiveGuess')
+@app.route('/positiveguess')
 def positiveGuess():
     # Processes positive guess if user logged in
     if 'username' in session:
@@ -165,7 +165,7 @@ def positiveGuess():
         return redirect(url_for('login'))
     
 # Negative guess
-@app.route('/negativeGuess')
+@app.route('/negativeguess')
 def negativeGuess():
     # Processes negative guess if user logged in
     if 'username' in session:
