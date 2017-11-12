@@ -14,7 +14,6 @@ var controller = {
         $.ajax({
             type: 'GET',
             url: $SCRIPT_ROOT + '/twitterdata',
-            data: {username: document.querySelector("#twitterUsername").textContent},
             success: function(results) {
                 returnData = [];
                 

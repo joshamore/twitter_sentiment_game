@@ -250,10 +250,7 @@ def negativeGuess():
 def twitterData():
     # Check to confirm user is logged in
     if 'username' in session:
-        # Stores GET request username argument in variables
-        user = request.args.get('username')
-
-        tweets = pullTweets(user)
+        tweets = pullTweets(session['twitterUser'])
         polarity = polarityAnalysis(tweets)
 
         return jsonify(polarity)
