@@ -9,8 +9,6 @@
         <h1>Results</h1>
         <p class="guessHeading">Your Guessed That <a href="https://twitter.com/{{ session['twitterUser'] }}" target="_blank" id="twitterUsername">{{ session['twitterUser'] }}'s</a> Tweets are Mostly <strong>{{ results['guess'] }}</strong>...</p>
 
-        <br>
-
         <div>
             {% if results['answer'] == 'Correct' %}
                 <div class="resultsVisuals">

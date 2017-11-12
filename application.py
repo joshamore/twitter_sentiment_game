@@ -324,7 +324,6 @@ def history():
 # Returns history guess data
 @app.route('/historyguessdata')
 def historyGuessData():
-    # NEED TO REVIEW HOW TO TEST THIS!
     # Ensures con is null before trying to establish a connection
     con = None
 
@@ -334,12 +333,9 @@ def historyGuessData():
         # Sets cursor for connected DB
         cur = con.cursor()
 
-        # Queries DB for guess entries for user and stores all in userHistory
+        # Queries DB for user's guess entries and stores userHistory (as a list of tuples)
         cur.execute("SELECT result FROM guesses WHERE username = ?", (session['username'],))
         userHistory = cur.fetchall()
-
-        # Renders page and passes template guesses in a list
-        return render_template('history.html', history = userHistory)
 
     except lite.Error as e:
         # Prints error on server side and renders error code for user
@@ -351,11 +347,20 @@ def historyGuessData():
     finally:
         if con:
             con.close()
-            
-    print(userHistory[0])
     
-    return userHistory
+    # Data will be returned in a list of two elements, with the first element being correct guesses and
+    # the second being incorrect guesses
+    returnData = [0, 0]
     
+    # Updates returnData based on guess data for each stores DB tuple
+    for item in userHistory:
+        if item[0] == 'True':
+            returnData[0] += 1
+        else:
+            returnData[1] += 1
+    
+    # Returns list as json to client
+    return jsonify(returnData)
 
 # Logs user out of account and returns to index
 @app.route('/logout')

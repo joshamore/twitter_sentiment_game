@@ -69,6 +69,11 @@ Results
 #showVisData:hover {
     cursor: pointer;
 }
+#historyChart {
+    max-width: 400px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
 
 
 /*****************************

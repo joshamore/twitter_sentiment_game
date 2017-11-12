@@ -3,7 +3,7 @@ var model = {
     // Polarity data for results chart
     polarityData: 0,
     // History data for history chart
-    historyData: [],
+    historyData: 0,
 };
 
 
@@ -56,7 +56,7 @@ var controller = {
     historyData: function(callback) {
         $.ajax({
             type: 'GET',
-            url: $SCRIPT_ROOT + '/historyGuessData',
+            url: $SCRIPT_ROOT + '/historyguessdata',
             success: function(results) {
                 model.historyData = results;
                 
@@ -107,17 +107,14 @@ var events = {
     historyChartClick: $('#showHistoryChart').click(function() {
         // This function will be called from inside the historyData function as a callback when AJAX returns
         function generateChart() {
+            // Inserts canvas into DOM
+            $('#historyVisData').html('<canvas id="historyChart" width="400" height="400"</canvas>');
+            
             // Creating chart with model data
             controller.historyChart();
         }
         
-        // Inserts canvas into DOM
-        $('historyVisData').html('<canvas id="historyChart" width="400" height="400"</canvas>');
-        
-        controller.historyChart(generateChart);
+        // Pulling history data and generating chart after data is returned
+        controller.historyData(generateChart);
     })
 };
-
-// TODO: Resolve issue with history chart. Possible typo. chart is not being created before
-// function attempts to add data. No GET request is being made with current 
-// code (not yet hitting AJAX functions -- error is before that step).
