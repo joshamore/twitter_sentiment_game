@@ -5,36 +5,34 @@
 {% endblock %}
 
 {% block main %}
-    <div class="text-center">
+    <div class="container text-center">
         <h1>Results</h1>
         <p class="guessHeading">Your Guessed That <a href="https://twitter.com/{{ session['twitterUser'] }}" target="_blank" id="twitterUsername">{{ session['twitterUser'] }}'s</a> Tweets are Mostly <strong>{{ results['guess'] }}</strong>...</p>
 
-        <div>
             {% if results['answer'] == 'Correct' %}
                 <div class="resultsVisuals">
-                    <div class="resultsEmoji">
+                    <div class="resultsEmoji text-center">
                         <p class="guessText"><strong>Correct!</strong></p>
-                        <div class="text-center">
+                        <div id="visButtonHolder">
                             <p id="showVisData" class="btn btn-primary">Visualise Tweet Data</p><a href="{{ url_for('index') }}">
                             <br>
-                            <p class="btn btn-success">New Game</p></a>
                         </div>
+                        <p class="btn btn-success">New Game</p></a>
                         <div id="resultsVisData"><img src="../static/assets/fire.png"></div>
                     </div>
                 </div>
             {% else %}
                 <div class="resultsVisuals">
-                    <div class="resultsEmoji">
+                    <div class="resultsEmoji text-center">
                         <p class="guessText"><strong>Incorrect!</strong></p>
-                        <div class="text-center">
+                        <div id="visButtonHolder">
                             <p id="showVisData" class="btn btn-primary">Visualise Tweet Data</p><a href="{{ url_for('index') }}">
-                            <br>
-                            <p class="btn btn-success">New Game</p></a>
+                            <br/>
                         </div>
+                        <p class="btn btn-success">New Game</p></a>
                         <div id="resultsVisData"><img src="../static/assets/poop.png"></div>
                     </div>
                 </div>
             {% endif %}
-        </div>
     </div>
 {% endblock %}

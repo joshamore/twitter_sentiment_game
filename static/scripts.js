@@ -96,6 +96,9 @@ var events = {
             // Inserts chart canvas into DOM
             $('#resultsVisData').html('<canvas id="resultsChart" width="400" height="400"></canvas>');
             
+            // Removes vis button
+            $('#visButtonHolder').remove();
+            
             // Creating chart with model data
             controller.resultsChart();
         }
@@ -108,6 +111,9 @@ var events = {
         function generateChart() {
             // Inserts canvas into DOM
             $('#historyVisData').html('<canvas id="historyChart" width="400" height="400"</canvas>');
+            
+            // Removes vis button
+            $('#visButtonHolder').remove();
             
             // Creating chart with model data
             controller.historyChart();
