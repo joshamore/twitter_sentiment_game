@@ -34,8 +34,8 @@ def getRandUser():
     # Setting auth
     stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
     
-    # Filters tweets checking for 10 most common english words to find a random English user
-    stream.statuses.filter(track=['the', 'of', 'to', 'and', 'in', 'you', 'that', 'it', 'is', 'for'])
+    # Filters tweets using negative words to give more balanced results (too postive with neutral language)
+    stream.statuses.filter(track=['evil', 'hate', 'kill', 'justice'])
       
     # Storing user details
     userData = {
@@ -82,13 +82,17 @@ def polarityAnalysis(tweets):
             
     return polarity
       
-# Returns the total polarity of a passed array of tweet text strings
+# Returns the total polarity of a passed array of Tweet text strings
+# Weighs Tweets as positive or negative (1 or -1)
 def totalPolarity(tweets):
     total = 0
     
     # Checking the polarity of each tweet
     for tweet in tweets:
         tweetBlob = TextBlob(tweet)
-        total += tweetBlob.sentiment.polarity
+        if tweetBlob.sentiment.polarity < 0:
+            total -= 1
+        elif tweetBlob.sentiment.polarity > 0:
+            total += 1
         
     return total

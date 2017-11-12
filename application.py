@@ -93,7 +93,8 @@ def positiveGuess():
 
         # Storing polarity of tweets
         polarity = totalPolarity(tweets)
-
+        
+        print(polarity)
         # Will store the data to be passed back to client 
         results = {}
 
