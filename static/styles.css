@@ -88,3 +88,6 @@ History
 .negHistoryGuess {
     color: red;
 }
+.historyOutcomeEmoji {
+    width: 30px;
+}

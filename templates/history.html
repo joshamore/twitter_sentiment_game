@@ -31,9 +31,9 @@
                         <td class="negHistoryGuess">Negative</td>
                     {% endif %}
                     {% if entry[3] == 'True' %}
-                        <td>Correct</td>
+                        <td><img src="../static/assets/thumbs_up_emoji.png" class="historyOutcomeEmoji"></td>
                     {% else %}
-                        <td>Incorrect</td>
+                        <td><img src="../static/assets/thumbs_down_emoji.png" class="historyOutcomeEmoji"></td>
                     {% endif %}
                     <td>{{ entry[4] }}</td>
                 </tr>
