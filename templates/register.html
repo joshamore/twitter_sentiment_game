@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block main %}
-    <h1 class="text-center">Register</h1>
-    
-    <div class="formHolder">
+    <div class="container defaultFormContent">
+        <h1 class="text-center">Register</h1>
+
         <form action="{{ url_for('register') }}" method="post">
             <div class="form-group">
                 <label for="username">Username</label>

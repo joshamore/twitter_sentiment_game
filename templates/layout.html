@@ -12,34 +12,24 @@
     <body>
         <!-- Navbar displayed if user logged in -->
         {% if 'username' in session %}
-        <!--
-        <nav class="navbar navbar-light bg-faded ">
-            <a href="{{ url_for('index') }}" class="navbar-brand">{{ session['username'] }}</a>
-            
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navMargin">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+            <a class="navbar-brand" href="{{url_for('index')}}">Navbar</a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{url_for('index')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('history') }}">History</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                        <a class="nav-link" href="{{url_for('history')}}">History</a>
                     </li>
                 </ul>
-            </div>
-        </nav>
-        -->
-        <nav class="userNavbar">
-            <div class="navLinkContainer">
-                <a href="#">TEST</a>
-                <a href="#">TEST</a>
-                <a href="{{ url_for('logout') }}">Log out</a>
+                <div class="my-2 my-lg-0">
+                    <a href="{{url_for('logout')}}"><p class="btn btn-outline-danger my-2 my-sm-0">Logout</p></a>
+                </div>
             </div>
         </nav>
         {% endif %}

@@ -1,18 +1,17 @@
 /*****************************
-General
+Login and Registration
 *****************************/
+.defaultFormContent {
+    margin-top: 15px;
+    max-width: 400px;
+}
 
 
 /*****************************
 Logged In Navbar
 *****************************/
-.userNavbar {
-    width: 100%;
-    height: 60px;
-    background-color: lightgrey;
-}
-.navLinkContainer {
-    display: inline-block;
+.navMargin {
+    margin-bottom: 15px;
 }
 
 
@@ -39,15 +38,6 @@ Twitter Display
     height: auto;
     border: 2px solid grey;
     margin-bottom: 15px;
-}
-
-
-/*****************************
-Registration
-*****************************/
-.formHolder {
-    padding-left: 20%;
-    padding-right: 20%;    
 }
 
 
