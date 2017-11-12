@@ -11,26 +11,30 @@ from passlib.apps import custom_app_context as pwd_context
 
 # Setting up Flask app
 app = Flask(__name__)
+
 # Secret key used for session cookie
 app.secret_key = os.urandom(24)
 
 # Home page
 @app.route('/')
 def index():
+    # Generates a random Twitter user (name, picture, and bio) if session active
     if 'username' in session:
         twitterUser = getRandUser()
         session['twitterUser'] = twitterUser['username']
+        
         return render_template('index.html', twitterUser=twitterUser)
+    # If no active session sends to login
     else:
         return redirect(url_for('login'))
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # Redirects user to main game screen if logged in
+    # Redirects user to main game screen if session active
     if 'username' in session:
         return redirect(url_for('index'))
-    # If user not logged in already, attempts to login
+    # Attempts to login user if session inactive
     else:
         if request.method == 'POST':
             # Storing username and password variables from POST request
@@ -86,16 +90,15 @@ def login():
 # Positive guess
 @app.route('/positiveguess')
 def positiveGuess():
-    # Processes positive guess if user logged in
+    # Processes positive guess if session active
     if 'username' in session:
-        # Pulling Tweets for twitter user
+        # Pulling Tweets for Twitter user
         tweets = pullTweets(session['twitterUser'])
 
-        # Storing polarity of tweets
+        # Storing polarity of Tweets
         polarity = totalPolarity(tweets)
         
-        print(polarity)
-        # Will store the data to be passed back to client 
+        # Stores data to be passed back to client 
         results = {}
 
         results['guess'] = 'Positive'
@@ -168,12 +171,12 @@ def positiveGuess():
 # Negative guess
 @app.route('/negativeguess')
 def negativeGuess():
-    # Processes negative guess if user logged in
+    # Processes negative guess if session active
     if 'username' in session:
-        # Pulling Tweets for twitter user
+        # Pulling Tweets for Twitter user
         tweets = pullTweets(session['twitterUser'])
 
-        # Storing polarity of tweets
+        # Storing polarity of Tweets
         polarity = totalPolarity(tweets)
 
         # Will store the data to be passed back to client 
@@ -249,13 +252,13 @@ def negativeGuess():
 # Accepts a GET request containg the username of a Twitter user and the app user's guess of Twitter user's sentiment
 @app.route('/twitterdata')
 def twitterData():
-    # Check to confirm user is logged in
+    # Confirms active session
     if 'username' in session:
         tweets = pullTweets(session['twitterUser'])
         polarity = polarityAnalysis(tweets)
 
         return jsonify(polarity)
-    # Sends user to login
+    # Sends user to login if no active session
     else:
         return redirect(url_for('index'))
     
@@ -265,10 +268,10 @@ def register():
     # Returns user to main game screen if session active
     if 'username' in session:
         return redirect(url_for('index'))
-    # Allows user to create a new account if no active session
+    # Attempts to create a new account if no active session
     else:
-        # POST method means user has submitted a form (creating an account).
-        # GET returns a render of the page.
+        # POST method means user has submitted a form (creating an account)
+        # GET returns a render of the page
         if request.method == 'POST':
             # Stores form data received from POST request
             username = request.form.get("username")
@@ -279,16 +282,20 @@ def register():
                 return render_template('error.html', errorCode = 'Username cannot be blank')
             elif not password:
                 return render_template('error.html', errorCode = 'Password cannot be blank')
-
+            
+            # Ensures con is null before trying to establish a connection
             con = None
+            
             try:
                 # Establishes connection to DB
                 con = lite.connect('twittergame.db')
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
-                # Executeds SQL query (storing username and password has). Must commit to push changes to DB
+                # Executeds SQL query (storing username and password has)
                 cur.execute("INSERT INTO users(username, hash) VALUES(?, ?)", (username, pwd_context.encrypt(password)))
+                
+                # Commits changes to DB
                 con.commit()
 
                 # Setting session to log user in
@@ -308,8 +315,6 @@ def register():
                 if con:
                     # Closes connection
                     con.close()
-
-            return render_template('register.html')
         else:
             return render_template('register.html')
 
@@ -388,7 +393,7 @@ def historyGuessData():
             else:
                 returnData[1] += 1
 
-        # Returns list as json to client
+        # Returns list as JSON to client
         return jsonify(returnData)
     # Sends user to login if no session active
     else:
@@ -405,7 +410,7 @@ def logout():
 
         # Returns user to login
         return redirect(url_for('login'))
-    # Redirects user to login if session inactive
+    # Redirects user to login if no active session
     else:
         return redirect(url_for('login'))
 
@@ -413,23 +418,3 @@ def logout():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
-################################################################
-# MAIN ONLY BEING USED FOR TESTING
-################################################################
-if __name__ == '__main__':
-    user = getRandUser()
-    tweets = pullTweets(user['username'])
-    polarity = polarityAnalysis(tweets)
-    
-    print(polarity)
-    # Password testing
-    dank = input("Yes? ")
-    
-    hasha = pwd_context.encrypt(dank)
-    
-    print("Hashed:" + hasha)
-    
-    verify = pwd_context.verify(dank, hasha)
-    
-    print(verify)

@@ -15,7 +15,7 @@ streamTweet = []
 # Setting up streamer
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
-        # Storing tweet if has a display picture and at least 100 tweets
+        # Storing Tweet if user has a display picture and at least 100 tweets
         if data['user']['default_profile_image'] == False and data['user']["statuses_count"] > 100:
             streamTweet.append(data)
             self.disconnect()
