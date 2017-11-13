@@ -7,12 +7,13 @@
 {% block main %}
     <h1 class="text-center">Twitter Sentiment Guessing</h1>
     <br>
-    <div class="text-center">
-        <h2>Is this person mostly positive or mostly negative on Twitter?</h2>
+    <div class="container text-center">
+        <h2>Is this person positive or negative on Twitter?</h2>
+        <br>
         <div class="tweetView mx-auto">
             <p id="username" class="twitterUsername"><strong>{{ twitterUser['username'] }}</strong></p>
             <img src="{{ twitterUser['picture'] }}" class="displayPic">
-            <p>{{ twitterUser['bio'] }}</p>
+            <p class="tweetBio">{{ twitterUser['bio'] }}</p>
         </div>
         
         <div>

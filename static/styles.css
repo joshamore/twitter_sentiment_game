@@ -1,4 +1,15 @@
 /*****************************
+General
+*****************************/
+body {
+    background-image: url(assets/dust_scratches.png);
+}
+h1 {
+    font-family: 'Lalezar', 'Palatino';
+}
+
+
+/*****************************
 Login and Registration
 *****************************/
 .defaultFormContent {
@@ -22,9 +33,11 @@ Twitter Display
     margin-top: 15px;
     margin-bottom: 15px;
     border: 2px solid black;
+    border-radius: 10%;
     width: 350px;
     word-wrap: break-word;
     padding: 5px;
+    background-color: aliceblue;
 }
 .buttonPointer {
     cursor: pointer;
@@ -32,6 +45,9 @@ Twitter Display
 }
 .twitterUsername {
     font-size: 2rem;
+}
+.tweetBio {
+    font-family: 'Questrial', sans-serif;
 }
 .displayPic {
     width: 100px;
@@ -50,7 +66,7 @@ Results
 .guessText {
     font-size: 4em;
     font-family: monospace;
-    margin-top: 15px;
+    margin-top: 3%;
 }
 .resultsVisuals {
 	display: flex;
