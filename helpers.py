@@ -2,6 +2,7 @@ from twython import Twython
 from twython import TwythonStreamer
 from textblob import TextBlob
 import datetime
+import time
 
 # Don't push with keys!
 consumer_key = 'and'
@@ -21,9 +22,16 @@ class MyStreamer(TwythonStreamer):
             self.disconnect()
             
     def on_error(self, status_code, data):
-        # Prints status code and stops trying to get data on error
+        # Prints error status code
         print(status_code)
-        self.disconnect()
+    
+        # If timout limit being reached, retry connection after sleeping
+        if status_code == 420:
+            print("Twitter timeout: Retrying connection after cooldown")
+            time.sleep(self.retry_in)
+        # If any other status code, disconnects stream
+        else:
+            self.disconnect()
 
 # Will get a random Twitter user's details from the stream of most recent tweets
 def getRandUser():
@@ -32,11 +40,11 @@ def getRandUser():
     streamTweet = []
     
     # Setting auth
-    stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret)
-    
+    stream = MyStreamer(consumer_key, consumer_secret, access_token, access_secret, retry_in=10)
+        
     # Filters tweets using negative words to give more balanced results (too postive with neutral language)
     stream.statuses.filter(track=['evil', 'hate', 'kill', 'justice'])
-      
+    
     # Storing user details
     userData = {
         'username': streamTweet[0]['user']['screen_name'],
