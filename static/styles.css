@@ -7,6 +7,9 @@ body {
 h1 {
     font-family: 'Lalezar', 'Palatino';
 }
+.content {
+    min-height: calc(100vh - 70px);
+}
 
 
 /*****************************
@@ -52,7 +55,8 @@ Twitter Display
 .displayPic {
     width: 100px;
     height: auto;
-    border: 2px solid grey;
+    border: 4px solid white;
+    border-radius: 50%;
     margin-bottom: 15px;
 }
 
@@ -96,4 +100,28 @@ History
 }
 .historyOutcomeEmoji {
     width: 30px;
+}
+
+
+/*****************************
+Footer
+*****************************/
+.footer {
+    width: 100%; 
+    height: 50px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    background-color: #292b2c;
+}
+.footerContent {
+    padding-top: 10px;
+    color: #929393;
+}
+.footerContent a {
+    color: #929393;
+    text-decoration: none;
+}
+.footerContent a:hover {
+    color: #c8c9c9;
+    text-decoration: none;
 }

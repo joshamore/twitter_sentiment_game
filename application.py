@@ -11,8 +11,6 @@ from passlib.apps import custom_app_context as pwd_context
 
 # Setting up Flask app
 app = Flask(__name__)
-# REMOVE
-app.debug = True
 
 # Secret key used for session cookie
 app.secret_key = os.urandom(24)
