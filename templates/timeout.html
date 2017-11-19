@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Twitter Timeout{% endblock %}
+{% block main %}
+<div class="container text-center">
+    <h1>Shucks! Twitter has timedout!</h1>
+    <p>Well... This is awkward.</p> 
+    <p>I didn't pay for a premium Twitter API license, so that means timeouts are going to happen! You'll have to wait about 30-60 seconds until the API considers your IP address worthy of more calls.</p>
+    
+    <p><strong>Hit the play button in the top navigation bar when you're ready.</strong></p>
+    
+    <h2>While you're waiting, enjoy this relaxing video:</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/32nkdvLq3oQ?list=PL7XlqX4npddfrdpMCxBnNZXg2GFll7t5y&amp;showinfo=0" frameborder="0" gesture="media" allowfullscreen></iframe>
+</div>
+{% endblock %}

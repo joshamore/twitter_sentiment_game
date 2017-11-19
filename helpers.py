@@ -25,10 +25,11 @@ class MyStreamer(TwythonStreamer):
         # Prints error status code
         print(status_code)
     
-        # If timout limit being reached, retry connection after sleeping
+        # If timout limit being reached, sets error message to streamTweet
         if status_code == 420:
-            print("Twitter timeout: Retrying connection after cooldown")
-            time.sleep(self.retry_in)
+            streamTweet = []
+            self.disconnect()
+            
         # If any other status code, disconnects stream
         else:
             self.disconnect()
@@ -45,15 +46,20 @@ def getRandUser():
     # Filters tweets using negative words to give more balanced results (too postive with neutral language)
     stream.statuses.filter(track=['evil', 'hate', 'kill', 'justice'])
     
-    # Storing user details
-    userData = {
-        'username': streamTweet[0]['user']['screen_name'],
-        'bio': streamTweet[0]['user']['description'],
-        'picture': streamTweet[0]['user']['profile_image_url']
-    }
-    
-    # Returning user details
-    return userData
+    # If stream timed out, returns error
+    if streamTweet == []:
+        return 'timeout'
+    # If stream successful, returns user data
+    else:
+        # Storing user details
+        userData = {
+            'username': streamTweet[0]['user']['screen_name'],
+            'bio': streamTweet[0]['user']['description'],
+            'picture': streamTweet[0]['user']['profile_image_url']
+        }
+
+        # Returning user details
+        return userData
 
 # Pulling in tweets for given user
 def pullTweets(user):

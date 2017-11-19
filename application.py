@@ -1,19 +1,18 @@
-import os
 import sys
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, redirect
 from helpers import *
-import sqlite3 as lite
+import psycopg2 as db
 from passlib.apps import custom_app_context as pwd_context
-
-# To build from command line first: export FLASK_APP=application.py
-# Then: flask run
-# Docs for hash function: https://passlib.readthedocs.io/en/1.6.5/new_app_quickstart.html
 
 # Setting up Flask app
 app = Flask(__name__)
 
 # Secret key used for session cookie
-app.secret_key = os.urandom(24)
+# Unable to use OS rand function with Heroku
+app.secret_key = 'sasd11333ff444000099kkkkeesdddaaf1'
+
+# DB URL
+DATABASE_URL = 'postgres://xvkbtgteviajhb:da2aea28aecf093f9a371a510668aa38ce6c9646f6e4ecd1d353a8e5481e5b44@ec2-184-72-230-93.compute-1.amazonaws.com:5432/dcdu0oanj352a2'
 
 # Home page
 @app.route('/')
@@ -21,6 +20,11 @@ def index():
     # Generates a random Twitter user (name, picture, and bio) if session active
     if 'username' in session:
         twitterUser = getRandUser()
+        
+        # Error checking for timeout
+        if twitterUser == 'timeout':
+            return render_template('timeout.html')
+        
         session['twitterUser'] = twitterUser['username']
         
         return render_template('index.html', twitterUser=twitterUser)
@@ -52,12 +56,12 @@ def login():
 
             try:
                 # Establishes connection to DB
-                con = lite.connect('twittergame.db')
+                con = db.connect(DATABASE_URL)
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
                 # Queries DB for username provided by user
-                cur.execute("SELECT * FROM users WHERE username = ?", (username,))
+                cur.execute("SELECT * FROM users WHERE username = %s", (username,))
                 userData = cur.fetchone()
 
                 # If username not found in DB, returns an error to user.
@@ -73,7 +77,7 @@ def login():
                     else:
                         return render_template('error.html', errorCode = 'Incorrect password')
 
-            except lite.Error as e:
+            except db.Error as e:
                 # Prints error on server side and renders error code for user
                 print('Error: {}'.format(e.args[0]))
                 return render_template('error.html', errorCode = e.args[0])
@@ -114,18 +118,18 @@ def positiveGuess():
             con = None
             try:
                 # Establishes connection to DB
-                con = lite.connect('twittergame.db')
+                con = db.connect(DATABASE_URL)
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
                 # Executeds SQL query and commits to DB
-                cur.execute("INSERT INTO guesses (username, twitter_user, guess, result, date) VALUES (?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'positive', 'True', dateTime))
+                cur.execute("INSERT INTO guesses (username, twitter_user, guess, result, date) VALUES (%s, %s, %s, %s, %s)", (session['username'], session['twitterUser'], 'positive', 'True', dateTime))
                 con.commit()
 
                 # Returns render with results
                 return render_template('results.html', results = results)
 
-            except lite.Error as e:
+            except db.Error as e:
                 # Prints error on server side and renders error code for user
                 print('Error: {}'.format(e.args[0]))
                 return render_template('error.html', errorCode = e.args[0])
@@ -142,18 +146,18 @@ def positiveGuess():
             con = None
             try:
                 # Establishes connection to DB
-                con = lite.connect('twittergame.db')
+                con = db.connect(DATABASE_URL)
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
                 # Executeds SQL query and commits to DB
-                cur.execute("INSERT INTO guesses(username, twitter_user, guess, result, date) VALUES(?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'positive', 'False', dateTime))
+                cur.execute("INSERT INTO guesses(username, twitter_user, guess, result, date) VALUES(%s, %s, %s, %s, %s)", (session['username'], session['twitterUser'], 'positive', 'False', dateTime))
                 con.commit()
 
                 # Returns render with results
                 return render_template('results.html', results = results)
 
-            except lite.Error as e:
+            except db.Error as e:
                 # Prints error on server side and renders error code for user
                 print('Error: {}'.format(e.args[0]))
                 return render_template('error.html', errorCode = e.args[0])
@@ -195,18 +199,18 @@ def negativeGuess():
             con = None
             try:
                 # Establishes connection to DB
-                con = lite.connect('twittergame.db')
+                con = db.connect(DATABASE_URL)
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
                 # Executeds SQL query and commits to DB
-                cur.execute("INSERT INTO guesses (username, twitter_user, guess, result, date) VALUES (?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'negative', 'False', dateTime))
+                cur.execute("INSERT INTO guesses (username, twitter_user, guess, result, date) VALUES (%s, %s, %s, %s, %s)", (session['username'], session['twitterUser'], 'negative', 'False', dateTime))
                 con.commit()
 
                 # Returns render with results
                 return render_template('results.html', results = results)
 
-            except lite.Error as e:
+            except db.Error as e:
                 # Prints error on server side and renders error code for user
                 print('Error: {}'.format(e.args[0]))
                 return render_template('error.html', errorCode = e.args[0])
@@ -223,18 +227,18 @@ def negativeGuess():
             con = None
             try:
                 # Establishes connection to DB
-                con = lite.connect('twittergame.db')
+                con = db.connect(DATABASE_URL)
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
                 # Executeds SQL query and commits to DB
-                cur.execute("INSERT INTO guesses(username, twitter_user, guess, result, date) VALUES(?, ?, ?, ?, ?)", (session['username'], session['twitterUser'], 'negative', 'True', dateTime))
+                cur.execute("INSERT INTO guesses(username, twitter_user, guess, result, date) VALUES(%s, %s, %s, %s, %s)", (session['username'], session['twitterUser'], 'negative', 'True', dateTime))
                 con.commit()
 
                 # Returns render with results
                 return render_template('results.html', results = results)
 
-            except lite.Error as e:
+            except db.Error as e:
                 # Prints error on server side and renders error code for user
                 print('Error: {}'.format(e.args[0]))
                 return render_template('error.html', errorCode = e.args[0])
@@ -288,12 +292,12 @@ def register():
             
             try:
                 # Establishes connection to DB
-                con = lite.connect('twittergame.db')
+                con = db.connect(DATABASE_URL)
                 # Sets cursor for connected DB
                 cur = con.cursor()
 
                 # Executeds SQL query (storing username and password has)
-                cur.execute("INSERT INTO users(username, hash) VALUES(?, ?)", (username, pwd_context.encrypt(password)))
+                cur.execute("INSERT INTO users(username, hash) VALUES(%s, %s)", (username, pwd_context.encrypt(password)))
                 
                 # Commits changes to DB
                 con.commit()
@@ -304,7 +308,7 @@ def register():
                 # Redirects to index/home
                 return redirect(url_for('index'))
 
-            except lite.Error as e:
+            except db.Error as e:
                 # Prints error on server side and renders error code for user
                 print('Error: {}'.format(e.args[0]))
                 return render_template('error.html', errorCode = e.args[0])
@@ -328,18 +332,18 @@ def history():
 
         try:
             # Establishes connection to DB
-            con = lite.connect('twittergame.db')
+            con = db.connect(DATABASE_URL)
             # Sets cursor for connected DB
             cur = con.cursor()
 
             # Queries DB for guess entries for user and stores all in userHistory
-            cur.execute("SELECT * FROM guesses WHERE username = ?", (session['username'],))
+            cur.execute("SELECT * FROM guesses WHERE username = %s", (session['username'],))
             userHistory = cur.fetchall()
 
             # Renders page and passes template guesses in a list
             return render_template('history.html', history = userHistory)
 
-        except lite.Error as e:
+        except db.Error as e:
             # Prints error on server side and renders error code for user
             print('Error: {}'.format(e.args[0]))
             return render_template('error.html', errorCode = e.args[0])
@@ -363,15 +367,15 @@ def historyGuessData():
 
         try:
             # Establishes connection to DB
-            con = lite.connect('twittergame.db')
+            con = db.connect(DATABASE_URL)
             # Sets cursor for connected DB
             cur = con.cursor()
 
             # Queries DB for user's guess entries and stores userHistory (as a list of tuples)
-            cur.execute("SELECT result FROM guesses WHERE username = ?", (session['username'],))
+            cur.execute("SELECT result FROM guesses WHERE username = %s", (session['username'],))
             userHistory = cur.fetchall()
 
-        except lite.Error as e:
+        except db.Error as e:
             # Prints error on server side and renders error code for user
             print('Error: {}'.format(e.args[0]))
             return render_template('error.html', errorCode = e.args[0])
@@ -399,11 +403,6 @@ def historyGuessData():
     else:
         return redirect(url_for('index'))
 
-# How to play page
-@app.route('/how')
-def how():
-    return render_template('how.html')
-
 # Logs user out of account and returns to index
 @app.route('/logout')
 def logout():
@@ -418,6 +417,11 @@ def logout():
     # Redirects user to login if no active session
     else:
         return redirect(url_for('login'))
+    
+# How to play page
+@app.route('/how')
+def how():
+    return render_template('how.html')
 
 # Error handling for 404 errors (page not found)
 @app.errorhandler(404)
