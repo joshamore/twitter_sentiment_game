@@ -11,16 +11,17 @@ This is the development version of the project. The production branch is <a href
 
 ## Languages, Libraries, and Tools
 **Backend**
-* Python/Flask - Main backend language and framework.
-* PostgreSQL - Database used for the deployed app.
-    * SQLite - Database used for development (easier to make quick changes and setup).
-* Twython - Python API wrapper.
-* TextBlob - A library that helps with natural language processing (NLP). Used for sentiment analysis.
-* Passlib - Assisted with password hashing.
+* <a href="https://www.python.org/download/releases/3.0/">Python 3.x</a> - Backend language.
+* <a href="http://flask.pocoo.org/">Flask</a> - Backend microframework.
+* <a href="https://www.postgresql.org/">PostgreSQL</a> - Database used for the deployed app.
+    * <a href="https://www.sqlite.org/">SQLite</a> - Database used for development (easier to make quick changes and setup).
+* <a href="https://twython.readthedocs.io/en/latest/">Twython</a> - Python API wrapper.
+* <a href="https://textblob.readthedocs.io/en/dev/">TextBlob</a> - A library that helps with natural language processing (NLP). Used for sentiment analysis.
+* <a href="https://passlib.readthedocs.io/en/stable/">Passlib</a> - Assisted with password hashing.
 
 **Frontend**
-* jQuery - JavaScript helper library.
-* Bootstrap - CSS framework.
+* <a href="https://jquery.com/">jQuery</a> - JavaScript helper library.
+* <a href="https://getbootstrap.com/">Bootstrap</a> - CSS framework.
 
 **General**
-* Heroku - Cloud app hosting.
+* <a href="https://www.heroku.com/">Heroku</a> - Cloud app hosting.
