@@ -399,6 +399,11 @@ def historyGuessData():
     else:
         return redirect(url_for('index'))
 
+# How to play page
+@app.route('/how')
+def how():
+    return render_template('how.html')
+
 # Logs user out of account and returns to index
 @app.route('/logout')
 def logout():

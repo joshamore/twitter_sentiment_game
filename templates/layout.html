@@ -22,10 +22,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url_for('index')}}">Home</a>
+                            <a class="nav-link" href="{{url_for('index')}}">Play</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{url_for('history')}}">History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('how')}}">How to Play</a>
                         </li>
                     </ul>
                     <div class="my-2 my-lg-0">
@@ -34,8 +37,19 @@
                 </div>
             </nav>
             {% else %}
-            <nav class="navbar navbar-inverse bg-inverse navMargin">
+            <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navMargin">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <a class="navbar-brand" href="{{url_for('index')}}">Twitter Sentiment Guessing</a>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('how')}}">How to Play</a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
             {% endif %}
 

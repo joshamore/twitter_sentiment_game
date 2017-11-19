@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    How to Play
+{% endblock %}
+
+{% block main %}
+    <div class="container text-center">
+        <h1>How to Play</h1>
+        
+        <div class="container howContent">
+            <p>Welcome to Twitter Sentiment Guessing. The aim of this game is simple: <strong>Guess if a random Twitter user is positive or negative when they Tweet.</strong></p>
+            <p>You're given the user's Twitter Handle, display picture, and bio to help with your guess. <strong>Goodluck!</strong></p>
+        </div>
+
+        <div class="container howContent">
+        {% if 'username' in session %}
+            <p><strong><a href="{{ url_for('index') }}">Play here!</a></strong></p>
+        {% else %}
+            <p><strong><a href="{{ url_for('index') }}">Login here!</a></strong></p>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
