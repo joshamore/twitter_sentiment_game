@@ -13,19 +13,19 @@ h1 {
 
 
 /*****************************
+Navbar
+*****************************/
+.navMargin {
+    margin-bottom: 15px;
+}
+
+
+/*****************************
 Login and Registration
 *****************************/
 .defaultFormContent {
     margin-top: 15px;
     max-width: 400px;
-}
-
-
-/*****************************
-Logged In Navbar
-*****************************/
-.navMargin {
-    margin-bottom: 15px;
 }
 
 
