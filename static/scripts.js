@@ -30,6 +30,7 @@ var controller = {
             }
         });
     },
+    // Generates guess results chart based on pulled data
     resultsChart: function() {
         var ctx = document.getElementById("resultsChart").getContext('2d');
         var myChart = new Chart(ctx, {
@@ -52,6 +53,7 @@ var controller = {
             }
         });
     },
+    // Pulls historical guess data
     historyData: function(callback) {
         $.ajax({
             type: 'GET',
@@ -63,6 +65,7 @@ var controller = {
             }
         });
     },
+    // Generates chart based on historical guess data
     historyChart: function() {
         var ctx = document.getElementById("historyChart").getContext('2d');
         var myChart = new Chart(ctx, {
