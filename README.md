@@ -18,10 +18,12 @@ This is the development version of the project. The production branch is <a href
 * <a href="https://twython.readthedocs.io/en/latest/">Twython</a> - Python API wrapper.
 * <a href="https://textblob.readthedocs.io/en/dev/">TextBlob</a> - A library that helps with natural language processing (NLP). Used for sentiment analysis.
 * <a href="https://passlib.readthedocs.io/en/stable/">Passlib</a> - Assisted with password hashing.
+* <a href="http://gunicorn.org/">Gunicorn</a> - Server used for deployed app.
 
 **Frontend**
 * <a href="https://jquery.com/">jQuery</a> - JavaScript helper library.
 * <a href="https://getbootstrap.com/">Bootstrap</a> - CSS framework.
+* <a href="http://www.chartjs.org/">Chart.js</a> - Used to create data visulisations.
 
 **General**
 * <a href="https://www.heroku.com/">Heroku</a> - Cloud app hosting.
