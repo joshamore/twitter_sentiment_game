@@ -1,4 +1,4 @@
-# twitter_sentiment_game
+# Twitter Sentiment Game
 This is my final project submission for <a href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x">CS50x</a> (Harvard/edx).
 
 ## The project
