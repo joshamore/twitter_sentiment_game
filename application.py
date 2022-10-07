@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = 'sasd11333ff444000099kkkkeesdddaaf1'
 
 # DB URL
-DATABASE_URL = 'postgres://xvkbtgteviajhb:da2aea28aecf093f9a371a510668aa38ce6c9646f6e4ecd1d353a8e5481e5b44@ec2-184-72-230-93.compute-1.amazonaws.com:5432/dcdu0oanj352a2'
+DATABASE_URL = os.environ.get('DATABASE_URL') 
 
 # Home page
 @app.route('/')

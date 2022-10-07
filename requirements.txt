@@ -1,0 +1,7 @@
+bob-builder==0.0.13
+flask==0.12.2
+Passlib==1.7.1
+twython==3.6.0
+textblob==0.13.1
+gunicorn==19.7.1
+psycopg2-binary==2.9.4

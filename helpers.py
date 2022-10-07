@@ -1,3 +1,4 @@
+import os
 from twython import Twython
 from twython import TwythonStreamer
 from textblob import TextBlob
@@ -5,10 +6,10 @@ import datetime
 import time
 
 # Don't push with keys!
-consumer_key = 'and'
-consumer_secret = 'and'
-access_token = 'and'
-access_secret = 'and'
+consumer_key = os.environ.get('CONSUMER_KEY')
+consumer_secret = os.environ.get('CONSUMER_SECRET')
+access_token = os.environ.get('ACCESS_TOKEN')
+access_secret = os.environ.get('ACCESS_SECRET')
 
 # Stores stream tweet data 
 streamTweet = []
