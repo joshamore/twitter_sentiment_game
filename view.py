@@ -1,8 +1,23 @@
-import sys
+# from flask import Flask, render_template
+# import os
+
+# app = Flask(__name__)
+
+
+# @app.route('/')
+# def home():
+#     return render_template('index.html')
+
+
+
+import sys, os
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, redirect
 from helpers import *
 import psycopg2 as db
 from passlib.apps import custom_app_context as pwd_context
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Setting up Flask app
 app = Flask(__name__)
@@ -427,3 +442,10 @@ def how():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)

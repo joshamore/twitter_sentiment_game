@@ -1,9 +1,12 @@
 import os
+import time
+import datetime
 from twython import Twython
 from twython import TwythonStreamer
 from textblob import TextBlob
-import datetime
-import time
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Don't push with keys!
 consumer_key = os.environ.get('CONSUMER_KEY')
