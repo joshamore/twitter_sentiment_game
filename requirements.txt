@@ -1,5 +1,5 @@
 bob-builder==0.0.13
-flask==0.12.2
+flask==2.0.3
 Passlib==1.7.1
 twython==3.6.0
 textblob==0.13.1
