@@ -1,15 +1,3 @@
-# from flask import Flask, render_template
-# import os
-
-# app = Flask(__name__)
-
-
-# @app.route('/')
-# def home():
-#     return render_template('index.html')
-
-
-
 import sys, os
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, redirect
 from helpers import *
